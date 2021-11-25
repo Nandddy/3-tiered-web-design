@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=M+PLUS+2:wght@100&display=swap');
+
+body {
+  font-weight:bold;
+  font-family:'M PLUS 2';
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  display: grid;
+  grid-gap: 1em;
+  grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
+  grid-template-rows: 20vh 20vh 20vh 20vh 20vh;
+  text-align:center;
+}
+
+#picture1 {
+  background-image: url("/img/index1.jpg");
+  background-repeat:no-repeat;
+  background-size:cover;
+  margin-top:5%;
+  opacity: 0.5;
+  height:auto;
+  width:calc(100vw - 17px);
+  grid-row:1 / span 5;
+  grid-column: 1 / span 5;
+}
+
+.login-container {
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  border-color:black;
+  border-style:solid;
+  border-radius:25%;
+  width:50%;
+  max-width:500px;
+}
+
+.largetext {
+  font-weight:bold;
+  font-size:24pt;
+}
