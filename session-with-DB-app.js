@@ -79,14 +79,14 @@ app.get("/profile", function (req, res) {
                 }
                 profileDOM.window.document.getElementById("left_column").appendChild(tablee);
                 res.send(profileDOM.serialize());
-                
+
             } else {
             }
 
         })
         //console.log(tablee);
-        
-        
+
+
 
     } else {
         // not logged in - no session and no access, redirect to home!
@@ -152,7 +152,7 @@ function authenticate(email, pwd, callback) {
         host: "localhost",
         user: "root",
         password: "",
-        database: "doglogin"
+        database: "dogtest"
     });
     connection.connect();
     connection.query(
@@ -202,8 +202,8 @@ async function init() {
         password: "",
         multipleStatements: true
     });
-    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS doglogin;
-        use doglogin;
+    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS dogtest;
+        use dogtest;
         CREATE TABLE IF NOT EXISTS user (
         ID int NOT NULL AUTO_INCREMENT,
         name varchar(30),
@@ -212,7 +212,15 @@ async function init() {
         extra int,
         color varchar(30),
         sub_days_remaining int,
-        PRIMARY KEY (ID));`;
+        PRIMARY KEY (ID));
+        CREATE TABLE IF NOT EXISTS data (
+            ID int NOT NULL AUTO_INCREMENT,
+            breed varchar(30),
+            height varchar(30),
+            weight varchar(30),
+            lifespan varchar(30),
+            extra_info varchar(30),
+            PRIMARY KEY (ID));`;
     await connection.query(createDBAndTables);
 
     // await allows for us to wait for this line to execute ... synchronously
@@ -230,6 +238,18 @@ async function init() {
         await connection.query(userRecords, [recordValues]);
     }
 
+    const [rows2, fields2] = await connection.query("SELECT * FROM data");
+
+    if (rows2.length == 0) {
+        let dataRecords = "insert into data (breed, height, weight, lifespan, extra_info) values ?";
+        let dataValues = [
+            ["Afador", "20-29 inches", "50-75 pounds", "10-12 years", "Smart and athletic"],
+            ["Afador", "20-29 inches", "50-75 pounds", "10-12 years", "Smart and athletic"],
+            ["Afador", "20-29 inches", "50-75 pounds", "10-12 years", "Smart and athletic"]
+        ];
+        await connection.query(dataRecords, [dataValues]);
+    }
+
 
     console.log("Listening on port " + port + "!");
 }
@@ -238,21 +258,21 @@ async function getData(callback) {
     var mysql = require('mysql2');
 
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "doglogin"
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "dogtest"
     });
-    
-    con.connect(function(err) {
-      if (err) throw err;
-      con.query("SELECT * FROM user", function (err, result, fields) {
+
+    con.connect(function (err) {
         if (err) throw err;
-        //console.log(result);
-        return callback(result);
-      });
+        con.query("SELECT * FROM user", function (err, result, fields) {
+            if (err) throw err;
+            //console.log(result);
+            return callback(result);
+        });
     });
-      
+
 }
 
 // RUN SERVER
