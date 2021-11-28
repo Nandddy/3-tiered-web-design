@@ -1,16 +1,7 @@
-@font-face {
-    font-family: 'comfortaaregular';
-    src: url('/fonts/comfortaa-variablefont_wght-webfont.eot');
-    src: url('/fonts/comfortaa-variablefont_wght-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/comfortaa-variablefont_wght-webfont.woff2') format('woff2'),
-         url('/fonts/comfortaa-variablefont_wght-webfont.woff') format('woff'),
-         url('/fonts/comfortaa-variablefont_wght-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=M+PLUS+2:wght@100&display=swap');
 
 body {
-  font-family: "comfortaaregular";
+  font-family: "M PLUS 2";
   font-size: 18pt;
   margin: 0px;
   padding: 0px;

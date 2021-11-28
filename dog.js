@@ -52,10 +52,10 @@ app.get("/profile", function (req, res) {
         let profileDOM = new JSDOM(profile);
 
         // great time to get the user's data and put it into the page!
-        profileDOM.window.document.getElementsByTagName("title")[0].innerHTML
-            = req.session.name + "'s Profile";
-        profileDOM.window.document.getElementById("profile_name").innerHTML
-            = "Welcome back " + req.session.name;
+        //profileDOM.window.document.getElementsByTagName("title")[0].innerHTML
+        //    = req.session.name + "'s Profile";
+        //profileDOM.window.document.getElementById("profile_name").innerHTML
+        //    = "Welcome back " + req.session.name;
 
 
 
@@ -73,11 +73,13 @@ app.get("/profile", function (req, res) {
             console.log(result);
             if (result != undefined) {
                 for (let i = 0; i < result.length; i++) {
-                    let str = "<tr><td>" + result[i].name + "</td></tr>";
+                    let str = "<tr><td>" + "Name: " + result[i].name;
+                    str += " Email: " + result[i].email;
+                    str +=  " Result: " + result[i].password + "</td></tr>";
                     tablee.innerHTML += str;
                     //console.log(str);
                 }
-                profileDOM.window.document.getElementById("left_column").appendChild(tablee);
+                profileDOM.window.document.getElementById("user-table").appendChild(tablee);
                 res.send(profileDOM.serialize());
 
             } else {
