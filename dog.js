@@ -18,7 +18,7 @@ app.use("/media", express.static("public/media"));
 app.use(session(
     {
         secret: "extra text that no one will guess",
-        name: "wazaSessionID",
+        name: "dogSessionID",
         resave: false,
         saveUninitialized: true
     })
@@ -34,8 +34,8 @@ app.get("/", function (req, res) {
 
         let doc = fs.readFileSync("./app/html/index.html", "utf8");
 
-        res.set("Server", "Wazubi Engine");
-        res.set("X-Powered-By", "Wazubi");
+        res.set("Server", "A Legitimate Engine");
+        res.set("X-Powered-By", "Hamster Wheels");
         res.send(doc);
 
     }
@@ -68,18 +68,42 @@ app.get("/profile", function (req, res) {
         //serialize will convert profileDOM, which is a data structure, into a workable HTML format.
         //console.log(profileDOM.serialize());
 
-        const tablee = profileDOM.window.document.createElement("table");
-        getData(function (result) {
-            console.log(result);
-            if (result != undefined) {
+        //const tablee = profileDOM.window.document.createElement("table");
+        const dataTable = profileDOM.window.document.createElement("table");
+        getData(req, function (result, tableResult) {
+            //console.log(result);
+            if (result != undefined && tableResult != undefined) {
                 for (let i = 0; i < result.length; i++) {
-                    let str = "<tr><td>" + "Name: " + result[i].name;
-                    str += " Email: " + result[i].email;
-                    str +=  " Result: " + result[i].password + "</td></tr>";
-                    tablee.innerHTML += str;
+                    profileDOM.window.document.getElementById("name-here").innerHTML = result[i].name;
+                    profileDOM.window.document.getElementById("sub-here").innerHTML = "Subscription days left: " + result[i].sub_days_remaining;
+                    profileDOM.window.document.getElementById("email-here").innerHTML = result[i].email;
+                    profileDOM.window.document.getElementById("color-here").innerHTML = "Colour used: " + result[i].color;
+                    profileDOM.window.document.getElementById("footercontent").style.backgroundColor = result[i].color;
+                    let count = result[i].extra;
+                    let str = "<div>";
+                    for (let i = 0; i < count; i++){
+                        str += `<span class="dogico">&nbsp;</span>`;
+                    }
+                    str += "</div>";
+                    profileDOM.window.document.getElementById("dogicon-here").innerHTML = str;
+                    //let str = "<tr><td>" + "Name: " + result[i].name;
+                    //str += " Email: " + result[i].email;
+                    //str +=  " Result: " + result[i].password + "</td></tr>";
+                    //tablee.innerHTML += str;
                     //console.log(str);
                 }
-                profileDOM.window.document.getElementById("user-table").appendChild(tablee);
+                //profileDOM.window.document.getElementById("user-table").appendChild(tablee);
+
+                for (let i = 0; i < tableResult.length; i++) {
+                    let str = "<tr><td>" + "Name: " + tableResult[i].breed;
+                    str += " Height: " + tableResult[i].height;
+                    str +=  " Weight: " + tableResult[i].weight + "</td></tr>";
+                    dataTable.innerHTML += str;
+                    //console.log(str);
+                }
+                profileDOM.window.document.getElementById("data-table").appendChild(dataTable);
+                //console.log(tableResult);
+                //this part neeeds to be here or else getData results will get overwritten
                 res.send(profileDOM.serialize());
 
             } else {
@@ -106,7 +130,7 @@ app.post("/login", function (req, res) {
     res.setHeader("Content-Type", "application/json");
 
 
-    console.log("What was sent", req.body.email, req.body.password);
+    //console.log("What was sent", req.body.email, req.body.password);
 
 
     let results = authenticate(req.body.email, req.body.password,
@@ -163,7 +187,7 @@ function authenticate(email, pwd, callback) {
         function (error, results, fields) {
             // results is an array of records, in JSON format
             // fields contains extra meta data about results
-            console.log("Results from DB", results, "and the # of records returned", results.length);
+            //console.log("Results from DB", results, "and the # of records returned", results.length);
 
             if (error) {
                 // in production, you'd really want to send an email to admin but for now, just console
@@ -256,23 +280,35 @@ async function init() {
     console.log("Listening on port " + port + "!");
 }
 
-async function getData(callback) {
+function getData(req, callback) {
     var mysql = require('mysql2');
+    var userData;
+    var tableData;
 
-    var con = mysql.createConnection({
+    var connection = mysql.createConnection({
         host: "localhost",
         user: "root",
         password: "",
-        database: "dogtest"
+        database: "dogtest",
+        multipleStatements: true
     });
 
-    con.connect(function (err) {
+    connection.connect(function (err) {
         if (err) throw err;
-        con.query("SELECT * FROM user", function (err, result, fields) {
+        connection.query("SELECT * FROM user WHERE email = ?", [req.session.email], 
+        function (err, result, fields) {
             if (err) throw err;
             //console.log(result);
-            return callback(result);
+            userData = result;
+            connection.query("SELECT * FROM data", function (err, result, fields) {
+                if (err) throw err;
+                //console.log(result);
+                tableData = result;
+                return callback(userData, tableData);
+            });
         });
+
+        
     });
 
 }

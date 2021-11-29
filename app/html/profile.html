@@ -1,17 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Profile</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Generate favicons using: https://favicon.io/ -->
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon" />
-    <link rel="stylesheet" href="/css/profile.css">
-  </head>
-  <body>
-      <div id="user-table"></div>
-      <br>
-      <div id="data-table"></div>
+
+<head>
+  <title>Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Generate favicons using: https://favicon.io/ -->
+  <link href="/img/favicon.ico" rel="icon" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+  <!------------------------Header-------------------------->
+  <div id="headercontent" class="bg-header">
+    <span id="name-here">NAME</span>
+    <span>&nbsp;</span>
+    <span id="brand">DogPics</span>
+    <span id="email-here">EMAIL</span>
+    <form action="/logout" method="get">
+      <input type="submit" value="Logout" />
+    </form>
+  </div>
+
+
+  <div id="user-table"></div>
+  <br>
+  <div id="data-table"></div>
+
+
+  <!------------------------Footer-------------------------->
+  <div id="footercontent" class="bg-header">
+    <span id="color-here">colour</span>
+    <span id="dogicon-here"></span>
+    <span id="sub-here">subcount</span>
+  </div>
 </body>
 
 </html>

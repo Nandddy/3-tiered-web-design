@@ -21,7 +21,7 @@ body {
   grid-template-columns: repeat(5, vw100);
   grid-template-rows: repeat(5, vh100);
   align-items: end;
-  background: url("/img/banner.jpg") center/cover fixed;
+  background: url("/public/imgs/banner.jpg") center/cover fixed;
 }
 
 #errorMsg {
