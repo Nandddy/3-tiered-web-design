@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=M+PLUS+2:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap');
 
 body {
-  font-weight:bold;
-  font-family:'M PLUS 2';
+  font-family:'PT Sans Narrow';
   margin: 0px;
   padding: 0px;
   height: 100vh;
@@ -46,7 +45,7 @@ body {
 #email, #password, #submit {
   background-color:rgba(255, 255, 255, 0.75);
   border-width:thin;
-  font-family:'M PLUS 2';
+  font-family:'PT Sans Narrow';
   font-weight:bold;
   font-size:1em;
   padding: 0.4em;
@@ -56,4 +55,9 @@ body {
   padding: 0.5em 25%;
   background-color:#70161E;
   color:white;
+
+}
+
+#submit:active{
+  transform: scale(1.25,0.75);
 }
